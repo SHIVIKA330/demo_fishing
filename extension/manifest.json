@@ -10,7 +10,7 @@
   ],
   "host_permissions": [
     "<all_urls>",
-    "https://phishing-detector-backend-6r35.onrender.com"
+    "https://phishing-detector-backend-r29g.onrender.com"
   ],
   "action": {
     "default_popup": "popup.html",
