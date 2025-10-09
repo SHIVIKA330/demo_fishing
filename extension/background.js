@@ -1,6 +1,9 @@
 // Enhanced Background Script for Phishing Detection
 let detectedUrls = new Map();
 
+// Cloud backend URL - UPDATE THIS WITH YOUR RENDER URL AFTER DEPLOYMENT
+const BACKEND_URL = 'https://phishing-detector-backend.onrender.com';
+
 // Initialize extension
 chrome.runtime.onInstalled.addListener(() => {
   console.log('Phishing Detector Pro Extension Installed');
@@ -40,26 +43,26 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-// Enhanced URL analysis function
+// Enhanced URL analysis function with retry logic
 async function analyzeUrl(url) {
   try {
     // Check cache first
     if (detectedUrls.has(url)) {
       const cached = detectedUrls.get(url);
-      if (Date.now() - cached.timestamp < 300000) {
+      if (Date.now() - cached.timestamp < 300000) { // 5 minutes cache
         return cached.result;
       }
     }
 
     console.log('Analyzing URL:', url);
     
-    const response = await fetch('http://127.0.0.1:5000/predict', {
+    const response = await fetchWithRetry(`${BACKEND_URL}/predict`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ url: url })
-    });
+    }, 2); // 2 retries
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -83,10 +86,34 @@ async function analyzeUrl(url) {
     return { 
       is_phishing: false, 
       error: true,
-      message: 'Service unavailable. Make sure Flask server is running on http://127.0.0.1:5000',
+      message: 'Cloud service unavailable. Please try again later.',
       confidence: 0
     };
   }
+}
+
+// Fetch with retry for cold start issues
+async function fetchWithRetry(url, options, retries = 2) {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const response = await fetch(url, options);
+      if (response.ok) return response;
+      
+      // If not OK but not server error, don't retry
+      if (response.status < 500) {
+        return response;
+      }
+    } catch (error) {
+      console.log(`Attempt ${i + 1} failed:`, error);
+    }
+    
+    // Wait before retry (exponential backoff)
+    if (i < retries) {
+      await new Promise(resolve => setTimeout(resolve, 2000 * (i + 1)));
+    }
+  }
+  
+  throw new Error(`Failed after ${retries + 1} attempts`);
 }
 
 // Update scan statistics
