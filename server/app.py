@@ -9,6 +9,7 @@ import numpy as np
 from datetime import datetime
 import whois
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -372,37 +373,33 @@ def health_check():
         'model_loaded': model is not None,
         'scaler_loaded': scaler is not None,
         'feature_names_loaded': len(feature_names) > 0,
-        'status': 'ready' if (model and scaler) else 'not ready'
+        'status': 'ready' if (model and scaler) else 'not ready',
+        'environment': 'production'
     }
     return jsonify(status)
 
 @app.route('/test', methods=['GET'])
 def test():
-    return jsonify({'status': 'Server is running!', 'message': 'Phishing detection API is ready'})
+    return jsonify({
+        'status': 'Server is running!', 
+        'message': 'Phishing detection API is ready',
+        'version': '2.0',
+        'environment': 'production'
+    })
 
-# Simple test page
-@app.route('/')
-def index():
-    return """
-    <html>
-        <body>
-            <h1>Phishing Detection API</h1>
-            <p>Use POST /predict with JSON: {"url": "https://example.com"}</p>
-            <p>Server is running correctly!</p>
-        </body>
-    </html>
-    """
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({
+        'message': 'Phishing Detection API',
+        'version': '2.0',
+        'status': 'active',
+        'endpoints': {
+            'POST /predict': 'Analyze URL for phishing',
+            'GET /health': 'API health check',
+            'GET /test': 'Test endpoint'
+        }
+    })
 
 if __name__ == '__main__':
-    print("\n=== Enhanced Phishing Detection API ===")
-    print("✓ CORS enabled")
-    print("✓ Heuristic checks enabled")
-    print("✓ Lower detection threshold (0.3)")
-    print("✓ Strong indicator overrides")
-    print("✓ Fail-safe: Errors return 'phishing'")
-    print("\nEndpoints:")
-    print("  POST /predict - Check if URL is phishing")
-    print("  GET  /health  - API health check")
-    print("  GET  /test    - Test endpoint")
-    print("\nStarting server on http://127.0.0.1:5000")
-    app.run(host='127.0.0.1', port=5000, debug=False)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
