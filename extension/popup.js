@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
     urlInfo: document.getElementById('urlInfo')
   };
 
+  // Cloud backend URL - UPDATE THIS WITH YOUR RENDER URL AFTER DEPLOYMENT
+  const BACKEND_URL = 'https://phishing-detector-backend.onrender.com';
+
   // Initialize
   loadStatistics();
   checkServiceStatus();
@@ -84,11 +87,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (result.error) {
       setStatus('error', '❌ ' + (result.message || 'Service unavailable'));
-      elements.confidence.textContent = 'Server offline';
+      elements.confidence.textContent = 'Cloud offline';
       elements.confidence.className = 'confidence error';
       
-      // Show server connection help
-      elements.serviceStatus.textContent = 'Offline - Start Flask server';
+      // Show cloud connection status
+      elements.serviceStatus.textContent = 'Offline - Cloud service';
       elements.connectionStatus.className = 'connection-status offline';
       
     } else if (result.is_phishing) {
@@ -142,16 +145,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   async function checkServiceStatus() {
     try {
-      const testResponse = await fetch('http://127.0.0.1:5000/test');
+      const testResponse = await fetch(`${BACKEND_URL}/test`);
       if (testResponse.ok) {
         const data = await testResponse.json();
-        elements.serviceStatus.textContent = 'Connected';
+        elements.serviceStatus.textContent = 'Connected (Cloud)';
         elements.connectionStatus.className = 'connection-status connected';
       } else {
         throw new Error('Server not responding');
       }
     } catch (error) {
-      elements.serviceStatus.textContent = 'Offline - Start Flask server';
+      elements.serviceStatus.textContent = 'Offline - Cloud service';
       elements.connectionStatus.className = 'connection-status offline';
     }
   }
