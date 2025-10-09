@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   // Cloud backend URL - UPDATE THIS WITH YOUR RENDER URL AFTER DEPLOYMENT
-  const BACKEND_URL = 'https://phishing-detector-backend.onrender.com';
+  const BACKEND_URL = 'https://phishing-detector-backend-6r35.onrender.com';
 
   // Initialize
   loadStatistics();
