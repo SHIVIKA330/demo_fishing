@@ -2,7 +2,7 @@
 let detectedUrls = new Map();
 
 // Cloud backend URL - UPDATE THIS WITH YOUR RENDER URL AFTER DEPLOYMENT
-const BACKEND_URL = 'https://phishing-detector-backend-6r35.onrender.com';
+const BACKEND_URL = 'https://phishing-detector-backend-r29g.onrender.com';
 
 // Initialize extension
 chrome.runtime.onInstalled.addListener(() => {
