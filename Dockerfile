@@ -12,11 +12,14 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application files
+# Copy ALL application files
 COPY . .
+
+# List files to debug
+RUN ls -la
 
 # Expose port
 EXPOSE 10000
 
-# Simple Python command - will work 100%
+# Start the application
 CMD ["python", "app.py"]
