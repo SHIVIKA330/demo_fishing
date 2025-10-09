@@ -1,13 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Phishing Detector Extension</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #6a0dad, #8a2be2);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    .download-btn {
+      display: inline-block;
+      background: linear-gradient(45deg, #ff00ff, #8a2be2);
+      color: #fff;
+      font-weight: 700;
+      padding: 15px 30px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    }
+
+    .download-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    }
+
+    .features {
+      margin-top: 40px;
+      text-align: left;
+      padding: 0 20px;
+    }
+
+    .features h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .features ul {
+      list-style: none;
+    }
+
+    .features li {
+      background: rgba(255,255,255,0.1);
+      margin-bottom: 15px;
+      padding: 15px 20px;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .features li:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #ddd;
+    }
+
+    @media(max-width: 600px) {
+      h1 { font-size: 2rem; }
+      .download-btn { font-size: 1rem; padding: 12px 25px; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Phishing Detector Chrome Extension</h1>
-  <p>This extension helps detect phishing websites.</p>
-  <p><a href="https://github.com/SHIVIKA330/Phishing-Detector/archive/refs/heads/main.zip">Download extension ZIP</a></p>
-  <p>Follow instructions in README to load the extension in Chrome.</p>
+  <div class="container">
+    <h1>🛡 Phishing Detector</h1>
+    <p>Protect yourself from phishing websites in real-time with this easy-to-use Chrome Extension.</p>
+    <a class="download-btn" href="https://github.com/SHIVIKA330/Phishing-Detector/archive/refs/heads/main.zip" target="_blank">
+      Download Extension ZIP
+    </a>
+
+    <div class="features">
+      <h2>✨ Features</h2>
+      <ul>
+        <li>Automatically detects phishing links while browsing</li>
+        <li>Real-time alerts for suspicious websites</li>
+        <li>Lightweight and fast Chrome extension</li>
+        <li>Easy to install and use</li>
+      </ul>
+    </div>
+
+    <div class="instructions">
+      <h2>📥 Installation Instructions</h2>
+      <p>
+        1. Download the ZIP file above<br>
+        2. Open Chrome → go to <strong>chrome://extensions</strong><br>
+        3. Enable <strong>Developer Mode</strong><br>
+        4. Click <strong>Load unpacked</strong> and select the extracted folder
+      </p>
+    </div>
+
+    <footer>
+      Made with 💜 by SHIVIKA330 | Hosted on GitHub Pages
+    </footer>
+  </div>
 </body>
 </html>
