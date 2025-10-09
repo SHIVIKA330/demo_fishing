@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Phishing Detector Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>🛡️ Phishing Detector</h1>
+        <p class="subtitle">AI-Powered Protection</p>
+    </div>
+    
+    <div class="status-container">
+        <div id="status" class="status scanning">
+            <div class="status-icon">🔍</div>
+            <div class="status-text">Scanning...</div>
+        </div>
+        
+        <div id="urlInfo" class="url-info">
+            <div class="url-text" id="currentUrl">No URL checked</div>
+            <div class="confidence" id="confidence">-</div>
+        </div>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat">
+            <div class="stat-value" id="safeCount">0</div>
+            <div class="stat-label">Safe</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="phishingCount">0</div>
+            <div class="stat-label">Phishing</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="totalScans">0</div>
+            <div class="stat-label">Total</div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button id="scanPage" class="btn btn-primary">
+            <span class="btn-icon">🔍</span>
+            Scan This Page
+        </button>
+        <button id="checkCurrent" class="btn btn-secondary">
+            <span class="btn-icon">🌐</span>
+            Check Current URL
+        </button>
+        <button id="viewHistory" class="btn btn-secondary">
+            <span class="btn-icon">📊</span>
+            View History
+        </button>
+    </div>
+
+    <div class="footer">
+        <div class="last-scan">
+            Last scan: <span id="lastScan">Never</span>
+        </div>
+        <div class="connection-status" id="connectionStatus">
+            <span class="status-dot"></span>
+            Service: <span id="serviceStatus">Checking...</span>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
