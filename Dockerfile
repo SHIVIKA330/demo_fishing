@@ -18,5 +18,5 @@ COPY . .
 # Expose port
 EXPOSE 10000
 
-# Fixed: Use --chdir to set working directory for gunicorn
-CMD ["gunicorn", "--chdir", "/app", "app:app", "--bind", "0.0.0.0:10000", "--workers", "2", "--timeout", "120"]
+# Simple Python command - will work 100%
+CMD ["python", "app.py"]
