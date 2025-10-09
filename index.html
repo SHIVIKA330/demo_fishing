@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Phishing Detector Extension</title>
+  <title>Phishing Detector Pro - Cloud Edition</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -56,11 +56,23 @@
       font-size: 1.2rem;
       transition: all 0.3s ease;
       box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+      margin-bottom: 20px;
     }
 
     .download-btn:hover {
       transform: scale(1.1);
       box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    }
+
+    .cloud-badge {
+      background: linear-gradient(45deg, #00ff00, #00b300);
+      color: #000;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-bottom: 20px;
     }
 
     .features {
@@ -72,6 +84,7 @@
     .features h2 {
       font-size: 2rem;
       margin-bottom: 20px;
+      text-align: center;
     }
 
     .features ul {
@@ -84,10 +97,56 @@
       padding: 15px 20px;
       border-radius: 15px;
       transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
     }
 
     .features li:hover {
       background: rgba(255,255,255,0.2);
+    }
+
+    .features li::before {
+      content: "✓";
+      color: #00ff00;
+      font-weight: bold;
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+
+    .instructions {
+      margin-top: 40px;
+      text-align: left;
+      background: rgba(255,255,255,0.1);
+      padding: 25px;
+      border-radius: 15px;
+    }
+
+    .instructions h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .instructions ol {
+      padding-left: 20px;
+    }
+
+    .instructions li {
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .instructions strong {
+      color: #ffcc00;
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(0, 255, 0, 0.2);
+      border-radius: 10px;
+      border-left: 4px solid #00ff00;
     }
 
     footer {
@@ -99,39 +158,57 @@
     @media(max-width: 600px) {
       h1 { font-size: 2rem; }
       .download-btn { font-size: 1rem; padding: 12px 25px; }
+      .container { padding: 20px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🛡 Phishing Detector</h1>
-    <p>Protect yourself from phishing websites in real-time with this easy-to-use Chrome Extension.</p>
-    <a class="download-btn" href="https://github.com/SHIVIKA330/Phishing-Detector/archive/refs/heads/main.zip" target="_blank">
-      Download Extension ZIP
+    <h1>🛡️ Phishing Detector Pro</h1>
+    <div class="cloud-badge">☁️ CLOUD BACKEND INCLUDED</div>
+    <p>Advanced AI-powered phishing detection with automatic cloud backend. No setup required!</p>
+    
+    <a class="download-btn" href="https://github.com/SHIVIKA330/demo_fishing/archive/refs/heads/main.zip" target="_blank">
+      📥 Download Extension ZIP
     </a>
 
+    <div class="status">
+      <strong>✅ Backend Status:</strong> Cloud service automatically deployed on Render
+    </div>
+
     <div class="features">
-      <h2>✨ Features</h2>
+      <h2>✨ Advanced Features</h2>
       <ul>
-        <li>Automatically detects phishing links while browsing</li>
-        <li>Real-time alerts for suspicious websites</li>
-        <li>Lightweight and fast Chrome extension</li>
-        <li>Easy to install and use</li>
+        <li>AI-powered phishing detection with machine learning</li>
+        <li>Real-time URL scanning as you browse</li>
+        <li>Automatic cloud backend - no manual setup needed</li>
+        <li>Visual warnings for suspicious websites</li>
+        <li>Page-wide URL scanning and highlighting</li>
+        <li>Security statistics and history tracking</li>
+        <li>Heuristic analysis + ML model combined detection</li>
       </ul>
     </div>
 
     <div class="instructions">
-      <h2>📥 Installation Instructions</h2>
-      <p>
-        1. Download the ZIP file above<br>
-        2. Open Chrome → go to <strong>chrome://extensions</strong><br>
-        3. Enable <strong>Developer Mode</strong><br>
-        4. Click <strong>Load unpacked</strong> and select the extracted folder
-      </p>
+      <h2>📥 Installation Guide</h2>
+      <ol>
+        <li><strong>Download</strong> the ZIP file above</li>
+        <li><strong>Extract</strong> the downloaded ZIP file to a folder</li>
+        <li>Open Chrome and go to <strong>chrome://extensions</strong></li>
+        <li>Enable <strong>Developer mode</strong> (toggle in top-right)</li>
+        <li>Click <strong>Load unpacked</strong> button</li>
+        <li>Select the extracted folder containing the extension files</li>
+        <li><strong>That's it!</strong> The extension will automatically connect to the cloud backend</li>
+      </ol>
+    </div>
+
+    <div class="instructions">
+      <h2>🚀 How It Works</h2>
+      <p><strong>No Backend Setup Required!</strong> Unlike other extensions, our cloud backend is automatically deployed and ready to use. The extension connects to our secure Render cloud service that handles all the AI processing.</p>
     </div>
 
     <footer>
-      Made with 💜 by SHIVIKA330 | Hosted on GitHub Pages
+      Made with 💜 by SHIVIKA330 | Cloud Backend: Render | Hosted on GitHub Pages
     </footer>
   </div>
 </body>
