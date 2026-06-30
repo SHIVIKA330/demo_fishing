@@ -32,7 +32,11 @@ WHITELISTED_DOMAINS = [
     "google.com", "youtube.com", "facebook.com", "amazon.com", 
     "wikipedia.org", "twitter.com", "instagram.com", "linkedin.com", 
     "microsoft.com", "apple.com", "github.com", "stackoverflow.com",
-    "gemini.com", "openai.com"
+    "gemini.com", "openai.com", "netflix.com", "paypal.com", "yahoo.com",
+    "live.com", "outlook.com", "office.com", "zoom.us", "salesforce.com",
+    "reddit.com", "cloudflare.com", "vercel.app", "render.com", "spotify.com",
+    "pinterest.com", "adobe.com", "dropbox.com", "bankofamerica.com",
+    "chase.com", "wellsfargo.com", "citibank.com", "github.io", "github.net"
 ]
 
 # --- Load the trained model and scaler ---
@@ -234,31 +238,18 @@ def heuristic_check(url):
     """Additional heuristic checks for phishing URLs"""
     domain = urlparse(url).netloc.lower()
     
-    # Immediate red flags
+    # Immediate absolute red flags
     if having_ip_address(url) == 1:
-        return True, "Uses IP address instead of domain name"
+        return True, "Uses raw IP address instead of domain name"
     
     if having_at_symbol(url) == 1:
         return True, "Contains @ symbol (suspicious redirect)"
     
     if check_typosquatting(url) == 1:
-        return True, "Possible typosquatting detected"
+        return True, "Possible typosquatting of popular trusted brands detected"
     
     if check_fake_https(url) == 1:
-        return True, "Fake HTTPS in domain name"
-    
-    # Check for excessive subdomains
-    if subdomain_count(url) >= 4:
-        return True, "Too many subdomains"
-    
-    # Check for suspicious TLD
-    if check_suspicious_tld(url) == 1:
-        return True, "Suspicious domain extension"
-    
-    # Check for phishing keywords in domain
-    domain_keywords = any(keyword in domain for keyword in BLACKLISTED_KEYWORDS)
-    if domain_keywords and not any(safe in domain for safe in ['google', 'microsoft', 'apple']):
-        return True, "Phishing keywords in domain"
+        return True, "Fake HTTPS token found in domain name"
     
     return False, ""
 
@@ -337,8 +328,8 @@ def predict():
         prediction_proba = model.predict_proba(features_scaled)
         phishing_score = prediction_proba[0][1]
 
-        # Use lower threshold to catch more phishing sites
-        threshold = 0.3
+        # Use standard threshold to improve accuracy and balance precision/recall
+        threshold = 0.5
 
         is_phishing = phishing_score > threshold
         confidence = phishing_score if is_phishing else 1 - phishing_score
