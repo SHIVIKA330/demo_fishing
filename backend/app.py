@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import pickle
 import re
 from urllib.parse import urlparse
@@ -41,24 +41,26 @@ model = None
 scaler = None
 feature_names = []
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 try:
-    with open('phishing_model.pkl', 'rb') as file:
+    with open(os.path.join(BASE_DIR, 'phishing_model.pkl'), 'rb') as file:
         model = pickle.load(file)
-    print("✓ Model loaded successfully.")
+    print("[OK] Model loaded successfully.")
     
-    with open('scaler.pkl', 'rb') as file:
+    with open(os.path.join(BASE_DIR, 'scaler.pkl'), 'rb') as file:
         scaler = pickle.load(file)
-    print("✓ Scaler loaded successfully.")
+    print("[OK] Scaler loaded successfully.")
     
-    with open('feature_names.pkl', 'rb') as file:
+    with open(os.path.join(BASE_DIR, 'feature_names.pkl'), 'rb') as file:
         feature_names = pickle.load(file)
-    print("✓ Feature names loaded successfully.")
+    print("[OK] Feature names loaded successfully.")
         
 except FileNotFoundError as e:
-    print(f"✗ Error loading files: {e}")
+    print(f"[ERROR] Error loading files: {e}")
     print("Please run model_training.py first to generate the required files.")
 except Exception as e:
-    print(f"✗ Error loading model: {e}")
+    print(f"[ERROR] Error loading model: {e}")
 
 # --- Enhanced Feature Extraction Functions ---
 def having_ip_address(url):
@@ -296,6 +298,12 @@ def predict():
     try:
         domain = urlparse(url).netloc.lower()
         
+        # Extract features first to return them in all cases
+        features = extract_all_features(url)
+        features_dict = {}
+        if feature_names and len(feature_names) == len(features):
+            features_dict = {name: (float(val) if isinstance(val, (int, float, np.integer, np.floating)) else val) for name, val in zip(feature_names, features)}
+        
         # Check whitelist first
         for safe_domain in WHITELISTED_DOMAINS:
             if domain == safe_domain or domain.endswith('.' + safe_domain):
@@ -304,7 +312,8 @@ def predict():
                     'url': url,
                     'confidence': 0.0,
                     'message': 'Domain is on the whitelist.',
-                    'whitelisted': True
+                    'whitelisted': True,
+                    'features': features_dict
                 })
 
         # Heuristic check for immediate red flags
@@ -315,11 +324,9 @@ def predict():
                 'url': url,
                 'confidence': 0.95,
                 'message': f'Heuristic detection: {heuristic_reason}',
-                'heuristic_detection': True
+                'heuristic_detection': True,
+                'features': features_dict
             })
-
-        # Extract features and use ML model
-        features = extract_all_features(url)
         
         features_df = pd.DataFrame([features], columns=feature_names)
         
@@ -356,7 +363,8 @@ def predict():
             'phishing_score': float(phishing_score),
             'confidence': float(confidence),
             'threshold_used': float(threshold),
-            'heuristic_checked': True
+            'heuristic_checked': True,
+            'features': features_dict
         })
 
     except Exception as e:
@@ -389,16 +397,7 @@ def test():
 
 @app.route('/', methods=['GET'])
 def home():
-    return jsonify({
-        'message': 'Phishing Detection API',
-        'version': '2.0',
-        'status': 'active',
-        'endpoints': {
-            'POST /predict': 'Analyze URL for phishing',
-            'GET /health': 'API health check',
-            'GET /test': 'Test endpoint'
-        }
-    })
+    return send_file('index.html')
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
